@@ -1,0 +1,74 @@
+<openerp>
+  <data>
+	        <record id="view_hospital_actesmedicaux_line_tree" model="ir.ui.view">
+            <field name="name">hospital.actesmedicaux.line.tree</field>
+            <field name="model">hospital.actesmedicaux.line</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Order Lines" create="false">
+                    <field name="product_id" invisible="1"/>
+                    <field name="actesmedicaux_id"/>
+                    <field name="order_partner_id"/>
+                    <field name="name"/>
+                    <field name="salesman_id"/>
+                    <field name="product_uom_qty" string="Qty"/>
+                    <field name="qty_delivered"/>
+                    <field name="qty_invoiced"/>
+                    <field name="qty_to_invoice"/>
+                    <field name="product_uom" string="Unit of Measure" groups="product.group_uom"/>
+                    <field name="price_subtotal" sum="Total" widget="monetary"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hospital_actesmedicaux_line_filter" model="ir.ui.view">
+            <field name="name">hospital.actesmedicaux.line.select</field>
+            <field name="model">hospital.actesmedicaux.line</field>
+            <field name="arch" type="xml">
+                <search string="Search Sales Order">
+                    <filter string="To Invoice" domain="[('qty_to_invoice','&lt;&gt;', 0)]"  help="Sales Order Lines ready to be invoiced"/>
+                    <separator/>
+                    <filter string="My Sales Order Lines" domain="[('salesman_id','=',uid)]" help="Sales Order Lines related to a Sales Order of mine"/>
+                    <field name="actesmedicaux_id"/>
+                    <field name="order_partner_id" operator="child_of"/>
+                    <field name="product_id"/>
+                    <field name="salesman_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Order" domain="[]" context="{'group_by':'actesmedicaux_id'}"/>
+                        <filter string="Salesperson" domain="[]" context="{'group_by':'salesman_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+ <!-- actions opening views on models -->
+        <record  model="ir.actions.act_window" id="hospital_actesmedicaux_line_action_window">
+            <field name="name">Sale Order Lines</field>
+            <field name="res_model">hospital.actesmedicaux.line</field>
+            <field name="context">{'search_default_product_id': [active_id], 'default_product_id': active_id}</field>
+            <field name="domain">[('state', 'in', ['sale', 'done'])]</field>
+        </record>
+	
+	 <record model="ir.ui.view" id="product2_form_view_sale_order_button">
+            <field name="name">product.product.sale.order</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" name="%(hospital_actesmedicaux_line_action_window)d"
+                        type="action" icon="fa-usd">
+                        <field string="Sales" name="sales_count" widget="statinfo" />
+                    </button>
+                </div>
+
+            </field>
+        </record>
+	
+	 
+   
+    
+	
+ 
+  </data>
+</openerp>

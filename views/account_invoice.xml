@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2016 LasLabs Inc.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+
+<odoo>
+         <record id="hospital_account_invoice_kanban" model="ir.ui.view">
+			        <field name="name">account.invoice.kanban</field>
+			        <field name="model">account.invoice</field>
+			        <field name='inherit_id' ref='account.invoice_kanban' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//field[@name='currency_id']" position="after">
+		                       <field name="physician_id" />
+		                       <field name="actemedical_id" />
+		                       
+			            </xpath>
+			        </field>
+		 </record>
+		<record id="hospital_account_view_account_invoice_filter" model="ir.ui.view">
+			        <field name="name">account.view.account.invoice.filter</field>
+			        <field name="model">account.invoice</field>
+			        <field name='inherit_id' ref='account.view_account_invoice_filter' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//field[@name='date']" position="after">
+		                       <field name="physician_id" />
+		                       <field name="actemedical_id" />
+			            </xpath>
+			            <xpath expr="//filter[@name='status']" position="after">
+		                       <filter name="physician_id" string="Physician" context="{'group_by':'physician_id'}"/>
+			            </xpath>
+			        </field>
+		 </record>		 
+          <!-- 
+         <record id="hospital_account_invoice_tree" model="ir.ui.view">
+			        <field name="name">account.invoice.tree</field>
+			        <field name="model">account.invoice</field>
+			        <field name='inherit_id' ref='account.invoice_tree' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//field[@name='company_currency_id']" position="after">
+		                       <field name="physician_id"  select="1" />
+		                       <field name="actemedical_id" />
+			            </xpath>
+			        </field>
+		 </record> 
+         <record id="hospital_account_invoice_supplier_tree" model="ir.ui.view">
+			        <field name="name">account.invoice.supplier.tree</field>
+			        <field name="model">account.invoice</field>
+			        <field name='inherit_id' ref='account.invoice_supplier_tree' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//field[@name='company_currency_id']" position="after">
+		                       <field name="physician_id"  select="1" />
+		                       <field name="actemedical_id" select="1" />
+			            </xpath>
+			        </field>
+		 </record>
+		 
+		     <record id="hospital_account_invoice_supplier_form" model="ir.ui.view">
+			        <field name="name">account.invoice.supplier.form</field>
+			        <field name="model">account.invoice</field>
+			        <field name='inherit_id' ref='account.invoice_supplier_form' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//field[@name='company_currency_id']" position="after">				                
+			                   <field name="physician_id"/>  
+			                   <field name="actemedical_id"/>  
+			            </xpath>
+			        </field>
+		     </record> 
+		  
+		 <record id="hospital_account_invoice_form" model="ir.ui.view">
+			        <field name="name">account.invoice.form</field>
+			        <field name="model">account.invoice</field>
+			        <field name='inherit_id' ref='account.invoice_form' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//field[@name='company_currency_id']" position="after">				                
+			                   <field name="physician_id"/>   
+			                   <field name="actemedical_id"/> 
+			            </xpath>
+			        </field>
+		 </record>
+		 -->
+</odoo>

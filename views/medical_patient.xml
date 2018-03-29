@@ -1,0 +1,50 @@
+<openerp>
+  <data>
+    
+			   <record id="hospital_patient_view_form" model="ir.ui.view">
+			        <field name="name">medical.patient.form</field>
+			        <field name="model">medical.patient</field>
+			        <field name='inherit_id' ref='medical_patient_disease.medical_patient_view_form' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//page[1]" position="after">     <!--   <xpath expr="//notebook[last()]" position="inside">  -->
+		                        <page string="Consultations" name="consultations" autofocus="autofocus">
+		                             <field name="consultation_ids"  widget="one2many_tags"  create="false" readonly="1"  options="{'no_quick_create': True, 'no_create': True}"/>
+		                        </page>
+		                        <page string="Hospiatization" name="hospiatization">
+		                             <field name="hospitalisation_ids"  widget="one2many_tags"  create="false" readonly="1"  options="{'no_quick_create': True, 'no_create': True}"/>
+		                        </page>  
+			            </xpath>
+			        </field>
+			   </record>
+			  
+		  	
+			   <record id="medical_patient_view_form" model="ir.ui.view">
+			        <field name="name">medical.patient.view.form (hospital)</field>
+			        <field name="model">medical.patient</field>
+			        <field name="inherit_id" ref="medical_patient_disease_allergy.medical_patient_view_form" />
+			        <field name="arch" type="xml">
+			            <xpath expr="//div[@name='buttons']" position="inside">
+			                <button type="action"
+			                        class="oe_stat_button"
+			                        icon="fa-list"
+			                        name="hospital.hospital_hospitalisation_action_window"
+			                        context="{'search_default_patient_id': active_id}">
+			                    <field name="count_hospitalisation_ids"
+			                           widget="statinfo"
+			                           string="Hospitalization" />
+			                </button>
+			                <button type="action"
+			                        class="oe_stat_button"
+			                        icon="fa-list"
+			                        name="hospital.hospital_hospitalisation_action_window"
+			                        context="{'search_default_patient_id': active_id}">
+			                    <field name="count_consultation_ids"
+			                           widget="statinfo"
+			                           string="Consultation" />
+			                </button>
+			            </xpath>
+			        </field>
+		        </record>    
+	   
+  </data>
+</openerp>

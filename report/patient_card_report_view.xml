@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <report
+            id="patient_card_report_id"
+            model="hospital.model_name"
+            string="Example Report"
+            name="hospital.report_patient_card_template_id"
+            file="hospital.report_model_name"
+            report_type="qweb-pdf"/>
+
+        <template id="report_patient_card_template_id">
+            <t t-call="report.html_container">                    
+                <!-- REMEMBER, docs is the selected records either in form view or checked in list view (usually). So the line below says use the following template for each record that has been selected. -->
+                <t t-foreach="docs" t-as="doc">
+                    <t>          
+                     <div class="page">    
+                        <h1>Report For <t t-esc="doc.name"/></h1>
+                        <table>
+                         <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                         </tr>
+
+                         <t t-foreach="doc.subrecord" t-as="o">
+                             <tr>
+                                 <td><t t-esc="o.id"/></td>
+                                 <td><t t-esc="o.name"/></td>
+                                 <td><t t-esc="o.create_date"/></td>
+                             </tr>
+                         </t>
+
+                        </table>    
+                     </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+</data>
+</openerp>

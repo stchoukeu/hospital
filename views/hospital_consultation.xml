@@ -1,0 +1,183 @@
+<openerp>
+  <data>
+	   <record id="hospital_consultation_view_search" model="ir.ui.view">
+	        <field name="name">hospital.consultation.search</field>
+	        <field name="model">hospital.consultation</field>
+	        <field name="arch" type="xml">
+	            <search string="Consultations of Patient ">
+	                <field name="id" />
+	                <field name="patient_id" />
+	                <field name="physician_id" />
+	                <field name="observation" />
+	                <field name="prescription_id" />
+	                 <field name="montant_untaxed"/>
+	                 <field name="create_date" />
+	                 <field name="state" />
+	                <newline />
+	              
+	                <group expand="0" string="Group By...">
+	                    <filter string="Prescription"
+	                            domain="[]"
+	                            context="{'group_by':'prescription_id'}"
+	                            />
+	                    <filter string="Physician"
+	                            domain="[]"
+	                            context="{'group_by':'physician_id'}"
+	                            />
+	                    <filter string="Patient"
+	                            domain="[]"
+	                            context="{'group_by':'patient_id'}"
+	                            />
+	                    <filter string="Statut"
+	                            domain="[]"
+	                            context="{'group_by':'state'}"
+	                            />
+	                </group>
+	            </search>
+	        </field>
+	    </record>
+     <!-- explicit tree view definition -->
+    
+    <record id="hospital_consultation_tree_view" model="ir.ui.view">
+      <field name="name">hospital.consultation.tree</field>
+      <field name="model">hospital.consultation</field>
+      <field name="arch" type="xml">
+        <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Room(s) Category">
+           <field name="id"/>
+           <field name="patient_id"/>
+           <field name="physician_id"/>
+           <field name="observation"/> 
+           <field name="create_date" />
+           <field name="montant_untaxed"/>
+             <field name="invoice_id"/>
+           <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition --> 
+    <record id="hospital_consultation_form_view" model="ir.ui.view">
+            <field name="name">hospital.consultation.form</field>
+            <field name="model">hospital.consultation</field>
+            <field name="arch" type="xml">
+                <form string="Hospitalization Room Category">
+                      <header>  
+                               <button name="bouton_cancel" states="confirm" string="Cancel"  type="object"  groups="base.group_user"/>
+		                       <button name="bouton_confirm" states="draft" string="Confirm" type="object"   class="oe_highlight" groups="base.group_user"/>
+		                       <button name="bouton_paid" states="confirm" string="Paid" type="object"  class="oe_highlight" groups="base.group_user"/>
+		                       <button name="bouton_consulted" states="paid" string="Consulted" type="object"  class="oe_highlight" groups="base.group_user"/>
+
+		                       <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,cancel,confirm,paid,consulted" statusbar_colors='{"cancel":"red","confirm":"blue","consulted":"green"}'/>
+		               </header> 
+		               <sheet>             
+		                     <group>
+		                        <group>
+		           
+		                              <field name="patient_id"/>
+		                              <field name="physician_id"/>
+		                              <field name="prescription_id"/>
+		                              
+		                        </group>
+		                        <group>
+		                               <field name="observation"/>
+		                               <field name="invoice_id"/>
+		                               <field name="montant_untaxed"/>
+		                               
+		                        </group>
+		                    </group>
+		                    <group>
+		                        <notebook>
+				                     <page string="Patologies" name="patologies" autofocus="autofocus">
+				                             <field name="disease_ids"  widget="one2many_tags"  create="false" readonly="1"  options="{'no_quick_create': True, 'no_create': True}"/>
+				                     </page>
+		                         </notebook>      
+		                    </group>
+                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="hospital_consultation_action_window">
+      <field name="name">Consultations List</field>
+      <field name="res_model">hospital.consultation</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      
+        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a new Consultation.
+              </p><p>
+                 Use this to control all patient consultations and control it.
+              </p>
+        </field>
+    </record>
+   
+    
+    <menuitem  id="hospital_menu_hospitalization_consultation_list"
+               name="Consultations"
+               parent="hospital_menu_hospitalization_top_root"
+               action="hospital_consultation_action_window"
+               sequence="109" />
+               
+
+	<record id="paperformat_card_print" model="report.paperformat">
+	    <field name="name">paperforma card print</field>
+	    <field name="default" eval="True"/>
+	    <field name="format">custom</field>
+	    <field name="page_height">85</field>
+	    <field name="page_width">55</field>
+	    <field name="orientation">Landscape</field>
+	    <field name="margin_top">3</field>
+	    <field name="margin_bottom">3</field>
+	    <field name="margin_left">3</field>
+	    <field name="margin_right">3</field>
+	    <field name="header_line" eval="False"/>
+	    <field name="header_spacing">3</field>
+	    <field name="dpi">80</field>
+	</record>
+	<report
+	    id="hospital_patient_card"
+	    model="hospital.consultation"
+	    string="Patient Card"
+	    report_type="qweb-pdf"
+	    name="hospital.report_patient_template_card"
+	    file="hospital.report_patient_template_card"
+	    attachment_use="True"
+	    paperformat="paperformat_card_print"
+	    attachment="(object.state in ('draft','confirm')) and
+	        ('INV'+(object.patient_id.name or '').replace('/','')+'.pdf')"
+	/>
+	<template id="report_patient_template_card">
+	    <t t-call="report.html_container">
+	        <t t-foreach="docs" t-as="record">
+	       <!--  <t t-call="report.external_layout">    -->
+	                <div class="page">
+	                    <h2>Carte du patient</h2>
+	                    <p>Numéro: <span t-field="record.patient_id.identification_code"/></p>
+	                    <p>Nom: <span t-field="record.patient_id.name"/></p>
+	                    <p>Date d'arrivée: <span t-field="record.create_date"/></p>
+	                   
+	                </div>
+	         <!--  </t>   -->  
+	        </t>
+	    </t>
+	</template>
+	
+
+
+    <!-- 
+     <record model="ir.rule" id="per_user_rule">
+            <field name="name">User: see the individual Record</field>
+            <field name="model_id" ref="model_help_desk_help_desk"/>
+             <field name="domain_force">[('create_uid','=',uid)]</field>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+     </record>
+     -->
+  </data>
+</openerp>

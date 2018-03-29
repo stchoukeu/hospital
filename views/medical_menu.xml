@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2016 LasLabs Inc.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+
+<odoo>
+    <delete model="ir.ui.menu" id="medical_patient_disease.medical_sub_disease"/>
+			
+    <menuitem id="hospital_menu_hospitalization_Disease_top_root"
+              name="Disease"
+              parent="medical.medical_root"
+              sequence="12" />   
+    <menuitem id="medical_sub_disease"
+              parent="hospital.hospital_menu_hospitalization_Disease_top_root"
+              sequence="1" 
+              action="medical_patient_disease.medical_patient_disease_action" />
+ 
+ <record model="ir.ui.menu" id="hr_payroll.menu_hr_payroll_configuration">
+        <field name="sequence">800</field>  
+  </record>
+ <record model="ir.ui.menu" id="hr_expense.menu_hr_expense_root">
+        <field name="name">Expenses</field>
+        <field name="parent_id" ref="hr.menu_hr_root"/>
+        <field name="sequence">100</field>  
+  </record>
+<!-- 
+   <record model="ir.ui.menu" id="hr_expense.menu_hr_expense_configuration">
+        <field name="name">Expenses</field>
+        <field name="parent_id" ref="hr_payroll.menu_hr_payroll_configuration"/>
+        <field name="sequence">100</field>  
+  </record>  
+   -->
+    <record model="ir.ui.menu" id="hr_holidays.menu_hr_holidays_root">
+        <field name="name">Leaves</field>
+        <field name="parent_id" ref="hr.menu_hr_root"/>
+        <field name="sequence">200</field> 
+  </record>
+  <!-- 
+  <record model="ir.ui.menu" id="hr.menu_hr_root">
+        <field name="name">Human Resources</field>
+        <field name="parent_id" ref="visas_avenue.menu_helpdesk"/>
+        <field name="sequence">100</field> 
+  </record> 
+  -->
+  <record model="ir.ui.menu" id="hr_payroll.menu_hr_payroll_root">
+        <field name="name">Payroll</field>
+        <field name="parent_id" ref="hr.menu_hr_root"/>
+        <field name="sequence">900</field> 
+  </record>
+
+  <!--             
+    <delete model="ir.ui.menu" id="hr_holidays.menu_hr_holidays_root"/>
+    <delete model="ir.ui.menu" id="hr.menu_hr_root"/>
+    <delete model="ir.ui.menu" id="hr_payroll.menu_hr_payroll_root"/>
+    <delete model="ir.ui.menu" id="hr_expense.hr_expense_root"/>
+   	   
+    <menuitem id="menu_hr_root" parent="menu_hr_root" name="Human Resources" sequence="0"/>
+    <menuitem id="menu_hr_root" parent="menu_hr_root" name="Human Resources" sequence="0"/>
+   
+    menuitem name="Leaves"
+     -->
+
+ <!--              
+    <menuitem id="hospital_prod_config_root" 
+              name="Products" 
+              parent="medical.medical_root_sub" 
+              sequence="99999"/>
+   
+    <menuitem id="hospital_prod_category"
+              name="Products Categories"
+              parent="hospital_prod_config_root"
+              sequence="1" 
+              action="product_product.product_uom_categ_form_action" 
+              groups="product.group_sale_pricelist"/>  
+                      
+     <menuitem id="hospital_product_product"
+              name="Others Products"
+              parent="hospital_prod_config_root"
+              sequence="2" 
+              action="product.product_product_form_action" />
+                
+    <menuitem id="hospital_prod_unit_of_mesure"
+              name="Products Unit of Mesures"
+              parent="hospital_prod_config_root"
+              sequence="3" 
+              action="product.product_uom_categ_form_action" 
+              groups="product.group_sale_pricelist"/>
+              
+    <menuitem id="menu_product_pricelist_action2"
+              action="product.product_pricelist_action2"  
+              parent="product.menu_product_pricelist_main"
+              name="Price List"
+              sequence="1" 
+              groups="product.group_sale_pricelist"/>
+   -->      
+
+</odoo>

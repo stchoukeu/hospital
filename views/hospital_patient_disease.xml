@@ -1,0 +1,40 @@
+<openerp>
+  <data>
+     <!-- explicit tree view definition  -->
+   
+       <record id="hospital_medical_patient_disease_view_search" model="ir.ui.view">
+			        <field name="name">medical.patient.disease.search</field>
+			        <field name="model">medical.patient.disease</field>
+			        <field name='inherit_id' ref='medical_patient_disease.medical_patient_disease_view_search' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//field[@name='patient_id']" position="after">
+		                       <field name="medicament_id" />
+			            </xpath>
+			        </field>
+		 </record>
+        
+         <record id="hospital_medical_patient_disease_view_tree" model="ir.ui.view">
+			        <field name="name">medical.patient.disease.tree</field>
+			        <field name="model">medical.patient.disease</field>
+			        <field name='inherit_id' ref='medical_patient_disease.medical_patient_disease_view_tree' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//field[@name='treatment_end_date']" position="after">
+			                    <field name="is_allergy" />
+			            </xpath>
+			        </field>
+		 </record>   
+		
+         <record id="hospital_medical_patient_disease_view_form" model="ir.ui.view">
+			        <field name="name">medical.patient.disease.form</field>
+			        <field name="model">medical.patient.disease</field>
+			        <field name='inherit_id' ref='medical_patient_disease.medical_patient_disease_view_form' />
+			        <field name="arch" type="xml">  
+			            <xpath expr="//field[@name='is_allergy']" position="replace">
+			                    <field name="is_allergy" />				                
+			                   <field name="medicament_id" colspan="1" select="1"/>    
+			            </xpath>
+			        </field>
+		 </record>
+        
+  </data>
+</openerp>

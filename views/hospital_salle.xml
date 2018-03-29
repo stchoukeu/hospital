@@ -1,0 +1,83 @@
+<openerp>
+  <data>
+     <!-- explicit tree view definition -->
+    
+    <record id="hospital_salle_tree_view" model="ir.ui.view">
+      <field name="name">hospital.salle.tree</field>
+      <field name="model">hospital.salle</field>
+      <field name="arch" type="xml">
+        <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Room(s) Category">
+           <field name="id"/>
+           <field name="name"/>
+           <field name="pavillon_id"/>
+           <field name="state"/>
+        </tree>
+      </field>
+    </record>
+   
+    <!-- explicit form view definition --> 
+    <record id="hospital_salle_form_view" model="ir.ui.view">
+            <field name="name">hospital.salle.form</field>
+            <field name="model">hospital.salle</field>
+            <field name="arch" type="xml">
+                <form string="Hospitalization Room Category">
+                       <header>
+		                   <button name="bouton_confirm" string="Confirm" type="object" attrs="{'invisible':[('state', '!=', 'confirm')]}" class="oe_highlight"/>
+		                   <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,confirm" statusbar_colors='{"draft":"blue","confirm":"blue"}'/>
+		               </header>
+		               <sheet>
+		                     <group>
+		                        <group>
+		                              <field name="name"/>
+		                              <field name="pavillon_id"/>                     
+		                        </group>
+		                        <group>
+		                              <field name="categorie_id"/>
+		                              <field name="centrehospitalier_id"/>
+		                        </group>
+		                    </group>
+		                     <group>
+		                        <group>
+		                              <field name="lit_ids"  widget="one2many_tags"  create="false" readonly="1"   options="{'no_quick_create': True, 'no_create': True}"/>    
+		                        </group>
+		                        <group>
+		                          
+		                        </group>
+		                     </group>
+		               </sheet>
+		               <div class="oe_chatter">
+                           <field name="message_follower_ids" widget="mail_followers"/>
+                           <field name="message_ids" widget="mail_thread"/>
+                       </div>		               
+                </form>
+            </field>
+        </record>
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="hospital_salle_action_window">
+      <field name="name">Room List</field>
+      <field name="res_model">hospital.salle</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      
+        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new Hospitalization room.
+              </p><p>
+                You can control the hospitalization room for your patient according to
+                 the standard that your hospital propose.
+              </p>
+        </field>
+    </record>
+     
+    <!-- actions -->
+    
+    <menuitem id="hospital_menu_config_salle_list" 
+              name="Room(s) configuration"
+              parent="hospital_menu_root_config_hospitalisation"
+              action="hospital_salle_action_window"
+              sequence="112" />
+
+  </data>
+</openerp>

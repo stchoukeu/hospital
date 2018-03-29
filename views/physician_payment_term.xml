@@ -1,0 +1,92 @@
+<openerp>
+  <data>
+     <!-- explicit tree view definition -->
+    
+    <record id="hospital_physician_payment_term_tree_view" model="ir.ui.view">
+      <field name="name">physician.payment.term.tree</field>
+      <field name="model">physician.payment.term</field>
+      <field name="arch" type="xml">
+        <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Physicians payment terms">
+           <field name="id"/>
+           <field name="product_id"/>
+           <field name="physician_id"/>
+           <field name="department_id"/>
+           <field name="centrehospitalier_id"/>
+           <field name="percent_phisician"/>
+		   <field name="percent_service"/>
+           <field name="state"/>
+        </tree>
+      </field>
+    </record>
+    
+    <!-- explicit form view definition --> 
+    <record id="hospital_physician_payment_term_form_view" model="ir.ui.view">
+            <field name="name">physician.payment.term.form</field>
+            <field name="model">physician.payment.term</field>
+            <field name="arch" type="xml">
+                <form string="Physicians payment terms">
+                       <header>
+		                     <button name="bouton_cancel" states="activate" string="Cancel"  type="object"  groups="base.group_user"/>
+		                     <button name="bouton_activate" states="draft,cancel" string="Activate" type="object"   class="oe_highlight" groups="base.group_user"/>
+		                    
+		                   <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,concel,activate" statusbar_colors='{"cancel":"red","activate":"blue"}'/>
+		               </header>
+		               <sheet>
+		                     <group>
+		                        <group>
+		                              <field name="product_id"/> 
+		                              <field name="department_id"/>   
+		                              <field name="physician_id"/>   
+                                     								  
+		                        </group>
+		                        <group>
+		                              <field name="centrehospitalier_id"/>
+		                              <field name="percent_phisician"/>
+									   <field name="percent_service"/>	
+		                        </group>
+		                    </group>
+		                     <group>
+		                        <group>
+		                                 
+		                        </group>
+		                        <group>
+		                          
+		                        </group>
+		                     </group>
+		               </sheet>
+		               <div class="oe_chatter">
+                           <field name="message_follower_ids" widget="mail_followers"/>
+                           <field name="message_ids" widget="mail_thread"/>
+                       </div>		               
+                </form>
+            </field>
+        </record>
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="hospital_physician_payment_term_action_window">
+      <field name="name">Physicians payment terms List</field>
+      <field name="res_model">physician.payment.term</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      
+        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new Physician payment terms.
+              </p><p>
+                You can control the physician payment terms according to
+                 the standard that your hospital propose.
+              </p>
+        </field>
+    </record>
+     
+    <!-- actions -->
+    
+    <menuitem id="hospital_menu_config_physician_payment_term_list" 
+              name="Physicians payment terms"
+              parent="hospital_menu_root_config_hospitalisation"
+              action="hospital_physician_payment_term_action_window"
+              sequence="134" />
+
+  </data>
+</openerp>
